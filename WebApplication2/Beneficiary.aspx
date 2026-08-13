@@ -4,59 +4,207 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+
     <title>Beneficiary Management</title>
 
     <style>
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
         body {
-            margin:0;
-            padding:0;
-            font-family:Segoe UI;
-            background:#f4f6f9;
+            background: #eef2f7;
+            color: #1f2937;
         }
 
-        .container{
-            width:1100px;
-            margin:30px auto;
-            background:#fff;
-            padding:20px;
-            border-radius:8px;
-            box-shadow:0px 0px 10px #ccc;
+        .page-container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 30px auto;
         }
 
-        h2{
-            color:#003366;
-            margin-bottom:20px;
+        .page-header {
+            background: #ffffff;
+            padding: 22px 28px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
         }
 
-        table{
-            width:100%;
+        .page-header h1 {
+            font-size: 26px;
+            color: #1e3a8a;
+            margin-bottom: 6px;
         }
 
-        td{
-            padding:8px;
+        .page-header p {
+            color: #6b7280;
+            font-size: 14px;
         }
 
-        .textbox{
-            width:280px;
-            padding:8px;
+        .customer-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 15px;
         }
 
-        .btn{
-            background:#003366;
-            color:white;
-            padding:10px 20px;
-            border:none;
-            cursor:pointer;
-            font-weight:bold;
+        .customer-box span {
+            font-weight: 600;
+            color: #374151;
         }
 
-        .btn:hover{
-            background:#005599;
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 22px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
         }
 
-        .grid{
-            margin-top:25px;
+        .card-title {
+            font-size: 19px;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px 22px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 7px;
+            color: #374151;
+        }
+
+        .form-control {
+            width: 100%;
+            height: 42px;
+            padding: 9px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+            background: #ffffff;
+        }
+
+        .form-control:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37,99,235,0.10);
+        }
+
+        .button-row {
+            margin-top: 22px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 7px;
+            padding: 11px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: #64748b;
+            color: #ffffff;
+        }
+
+        .message {
+            display: block;
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .grid-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .beneficiary-grid {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1200px;
+        }
+
+        .beneficiary-grid th {
+            background: #1e3a8a;
+            color: #ffffff;
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .beneficiary-grid td {
+            padding: 11px 10px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+            color: #374151;
+            white-space: nowrap;
+        }
+
+        .beneficiary-grid tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .beneficiary-grid tr:hover {
+            background: #eff6ff;
+        }
+
+        @media (max-width: 1000px) {
+
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-container {
+                width: 94%;
+                margin: 15px auto;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
         }
 
     </style>
@@ -67,186 +215,330 @@
 
 <form id="form1" runat="server">
 
-<div class="container">
+    <div class="page-container">
 
-<h2>Beneficiary Management</h2>
+        <!-- PAGE HEADER -->
 
-<table>
+        <div class="page-header">
 
-<tr>
+            <h1>Beneficiary Management</h1>
 
-<td><b>Customer ID</b></td>
+            <p>
+                Add and manage beneficiary accounts
+            </p>
 
-<td>
-<asp:Label ID="lblCustomerID"
-runat="server"
-Text="10001">
-</asp:Label>
-</td>
+            <div class="customer-box">
 
-<td><b>Beneficiary Name</b></td>
+                Customer ID:
 
-<td>
-<asp:TextBox
-ID="txtBeneficiaryName"
-runat="server"
-CssClass="textbox">
-</asp:TextBox>
-</td>
+                <asp:Label
+                    ID="lblCustomerID"
+                    runat="server">
+                </asp:Label>
 
-</tr>
+            </div>
 
-<tr>
+        </div>
 
-<td><b>Account Number</b></td>
 
-<td>
-<asp:TextBox
-ID="txtAccountNumber"
-runat="server"
-CssClass="textbox">
-</asp:TextBox>
-</td>
+        <!-- ADD BENEFICIARY -->
 
-<td><b>Confirm Account</b></td>
+        <div class="card">
 
-<td>
-<asp:TextBox
-ID="txtConfirmAccount"
-runat="server"
-CssClass="textbox">
-</asp:TextBox>
-</td>
+            <div class="card-title">
+                Add Beneficiary
+            </div>
 
-</tr>
 
-<tr>
+            <div class="form-grid">
 
-<td><b>IFSC Code</b></td>
+                <!-- BENEFICIARY NAME -->
 
-<td>
-<asp:TextBox
-ID="txtIFSC"
-runat="server"
-CssClass="textbox">
-</asp:TextBox>
-</td>
+                <div class="form-group">
 
-<td><b>Bank Name</b></td>
+                    <label>
+                        Beneficiary Name
+                    </label>
 
-<td>
-<asp:TextBox
-ID="txtBankName"
-runat="server"
-CssClass="textbox">
-</asp:TextBox>
-</td>
+                    <asp:TextBox
+                        ID="txtBeneficiaryName"
+                        runat="server"
+                        CssClass="form-control"
+                        MaxLength="100">
+                    </asp:TextBox>
 
-</tr>
+                </div>
 
-<tr>
 
-<td><b>Branch Name</b></td>
+                <!-- ACCOUNT NUMBER -->
 
-<td>
-<asp:TextBox
-ID="txtBranch"
-runat="server"
-CssClass="textbox">
-</asp:TextBox>
-</td>
+                <div class="form-group">
 
-<td><b>Nick Name</b></td>
+                    <label>
+                        Account Number
+                    </label>
 
-<td>
-<asp:TextBox
-ID="txtNickName"
-runat="server"
-CssClass="textbox">
-</asp:TextBox>
-</td>
+                    <asp:TextBox
+                        ID="txtAccountNumber"
+                        runat="server"
+                        CssClass="form-control"
+                        MaxLength="30">
+                    </asp:TextBox>
 
-</tr>
+                </div>
 
-<tr>
 
-<td><b>Mobile Number</b></td>
+                <!-- CONFIRM ACCOUNT NUMBER -->
 
-<td>
-<asp:TextBox
-ID="txtMobile"
-runat="server"
-CssClass="textbox">
-</asp:TextBox>
-</td>
+                <div class="form-group">
 
-<td><b>Email ID</b></td>
+                    <label>
+                        Confirm Account Number
+                    </label>
 
-<td>
-<asp:TextBox
-ID="txtEmail"
-runat="server"
-CssClass="textbox">
-</asp:TextBox>
-</td>
+                    <asp:TextBox
+                        ID="txtConfirmAccount"
+                        runat="server"
+                        CssClass="form-control"
+                        MaxLength="30">
+                    </asp:TextBox>
 
-</tr>
+                </div>
 
-<tr>
 
-<td colspan="4" align="center">
+                <!-- IFSC -->
 
-<asp:Button
-ID="btnAdd"
-runat="server"
-Text="Add Beneficiary"
-CssClass="btn"
-OnClick="btnAdd_Click"/>
+                <div class="form-group">
 
-</td>
+                    <label>
+                        IFSC Code
+                    </label>
 
-</tr>
+                    <asp:TextBox
+                        ID="txtIFSC"
+                        runat="server"
+                        CssClass="form-control"
+                        MaxLength="20">
+                    </asp:TextBox>
 
-</table>
+                </div>
 
-<br />
 
-<asp:GridView
-ID="gvBeneficiary"
-runat="server"
-AutoGenerateColumns="False"
-Width="100%"
-CssClass="grid"
-BorderWidth="1"
-GridLines="Both">
+                <!-- BANK NAME -->
 
-<Columns>
+                <div class="form-group">
 
-<asp:BoundField DataField="BeneficiaryID" HeaderText="ID" Visible="false" />
+                    <label>
+                        Bank Name
+                    </label>
 
-<asp:BoundField DataField="BeneficiaryName" HeaderText="Beneficiary Name" />
+                    <asp:TextBox
+                        ID="txtBankName"
+                        runat="server"
+                        CssClass="form-control"
+                        MaxLength="100">
+                    </asp:TextBox>
 
-<asp:BoundField DataField="AccountNumber" HeaderText="Account Number" />
+                </div>
 
-<asp:BoundField DataField="IFSCCode" HeaderText="IFSC Code" />
 
-<asp:BoundField DataField="BankName" HeaderText="Bank Name" />
+                <!-- BRANCH NAME -->
 
-<asp:BoundField DataField="BranchName" HeaderText="Branch Name" />
+                <div class="form-group">
 
-<asp:BoundField DataField="NickName" HeaderText="Nick Name" />
+                    <label>
+                        Branch Name
+                    </label>
 
-<asp:BoundField DataField="MobileNumber" HeaderText="Mobile Number" />
+                    <asp:TextBox
+                        ID="txtBranch"
+                        runat="server"
+                        CssClass="form-control"
+                        MaxLength="100">
+                    </asp:TextBox>
 
-<asp:BoundField DataField="EmailID" HeaderText="Email ID" />
+                </div>
 
-<asp:BoundField DataField="Status" HeaderText="Status" />
 
-</Columns>
+                <!-- NICKNAME -->
 
-</asp:GridView>
+                <div class="form-group">
 
-</div>
+                    <label>
+                        Nickname
+                    </label>
+
+                    <asp:TextBox
+                        ID="txtNickName"
+                        runat="server"
+                        CssClass="form-control"
+                        MaxLength="50">
+                    </asp:TextBox>
+
+                </div>
+
+
+                <!-- MOBILE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Mobile Number
+                    </label>
+
+                    <asp:TextBox
+                        ID="txtMobile"
+                        runat="server"
+                        CssClass="form-control"
+                        MaxLength="15">
+                    </asp:TextBox>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <asp:TextBox
+                        ID="txtEmail"
+                        runat="server"
+                        CssClass="form-control"
+                        MaxLength="100">
+                    </asp:TextBox>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <div class="button-row">
+
+                <asp:Button
+                    ID="btnAdd"
+                    runat="server"
+                    Text="Add Beneficiary"
+                    CssClass="btn btn-primary"
+                    OnClick="btnAdd_Click" />
+
+            </div>
+
+        </div>
+
+
+        <!-- BENEFICIARY LIST -->
+
+        <div class="card">
+
+            <div class="card-title">
+                Beneficiary List
+            </div>
+
+
+            <div class="grid-wrapper">
+
+                <asp:GridView
+                    ID="gvBeneficiary"
+                    runat="server"
+                    AutoGenerateColumns="False"
+                    CssClass="beneficiary-grid"
+                    EmptyDataText="No beneficiaries found."
+                    GridLines="None">
+
+                    <Columns>
+
+
+
+                        <asp:BoundField
+                            DataField="BeneficiaryID"
+                            HeaderText="ID"
+                            Visible="false" />
+
+
+
+                        <asp:BoundField
+                            DataField="BeneficiaryName"
+                            HeaderText="Beneficiary Name" />
+
+
+
+                        <asp:BoundField
+                            DataField="AccountNumber"
+                            HeaderText="Account Number" />
+
+
+
+                        <asp:BoundField
+                            DataField="IFSCCode"
+                            HeaderText="IFSC Code" />
+
+
+
+                        <asp:BoundField
+                            DataField="BankName"
+                            HeaderText="Bank Name" />
+
+
+
+                        <asp:BoundField
+                            DataField="BranchName"
+                            HeaderText="Branch Name" />
+
+
+
+                        <asp:BoundField
+                            DataField="NickName"
+                            HeaderText="Nickname" />
+
+
+
+                        <asp:BoundField
+                            DataField="MobileNumber"
+                            HeaderText="Mobile Number" />
+
+
+
+                        <asp:BoundField
+                            DataField="EmailID"
+                            HeaderText="Email" />
+
+
+
+                        <asp:BoundField
+                            DataField="Status"
+                            HeaderText="Status" />
+
+
+
+                        <asp:BoundField
+                            DataField="CreatedDate"
+                            HeaderText="Created Date"
+                            DataFormatString="{0:dd-MM-yyyy HH:mm}"
+                            HtmlEncode="false" />
+
+                    </Columns>
+
+                </asp:GridView>
+
+            </div>
+
+
+
+            <asp:Label
+                ID="lblMessage"
+                runat="server"
+                CssClass="message">
+            </asp:Label>
+
+        </div>
+
+    </div>
 
 </form>
 

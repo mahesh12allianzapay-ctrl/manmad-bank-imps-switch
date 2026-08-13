@@ -1,91 +1,403 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="WebApplication2.Dashboard" %>
 
 <!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head runat="server">
-    <title>Dashboard - Manmad Bank</title>
+
+    <title>Banking Dashboard - IMPS</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
 
     <style>
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Segoe UI';
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
 
-        body{
-            background:#eef2f7;
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
         }
 
-        .header{
-            background:#0f4c81;
-            color:white;
-            padding:18px;
-            text-align:center;
-            font-size:28px;
-            font-weight:bold;
+        /* =========================
+           MAIN CONTAINER
+           ========================= */
+
+        .page-container {
+            min-height: 100vh;
         }
 
-        .welcome{
-            background:white;
-            margin:20px;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 2px 10px rgba(0,0,0,.15);
+        /* =========================
+           HEADER
+           ========================= */
+
+        .header {
+            background: linear-gradient(135deg, #063b6d, #0f5b96);
+            color: white;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
-        .cards{
-            display:flex;
-            gap:20px;
-            margin:20px;
+        .bank-title {
+            font-size: 24px;
+            font-weight: 700;
         }
 
-        .card{
-            flex:1;
-            background:white;
-            padding:25px;
-            border-radius:10px;
-            text-align:center;
-            box-shadow:0 2px 10px rgba(0,0,0,.15);
+        .bank-subtitle {
+            font-size: 13px;
+            opacity: 0.85;
+            margin-top: 4px;
         }
 
-        .card h3{
-            color:#0f4c81;
-            margin-bottom:15px;
+        .secure-text {
+            font-size: 13px;
+            text-align: right;
         }
 
-        .card span{
-            font-size:26px;
-            font-weight:bold;
+        /* =========================
+           NAVIGATION
+           ========================= */
+
+        .navigation {
+            background: #ffffff;
+            padding: 12px 35px;
+            border-bottom: 1px solid #e1e7ef;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .menu{
-            margin:20px;
-            display:flex;
-            gap:15px;
-            flex-wrap:wrap;
+        .navigation a {
+            text-decoration: none;
+            color: #24415d;
+            padding: 9px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
         }
 
-        .menu a{
-            background:#0f4c81;
-            color:white;
-            padding:12px 20px;
-            text-decoration:none;
-            border-radius:5px;
-            font-weight:bold;
+        .navigation a:hover {
+            background: #eaf2f9;
+            color: #0f4c81;
         }
 
-        .menu a:hover{
-            background:#08375f;
+        .navigation .active {
+            background: #0f4c81;
+            color: white;
         }
 
-        .grid{
-            margin:20px;
-            background:white;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 2px 10px rgba(0,0,0,.15);
+        .navigation .logout {
+            margin-left: auto;
+            background: #b42318;
+            color: white;
+        }
+
+        .navigation .logout:hover {
+            background: #8f1d14;
+        }
+
+        /* =========================
+           CONTENT
+           ========================= */
+
+        .content {
+            max-width: 1400px;
+            margin: auto;
+            padding: 25px 30px 40px 30px;
+        }
+
+        /* =========================
+           WELCOME
+           ========================= */
+
+        .welcome-panel {
+            background: white;
+            border-radius: 10px;
+            padding: 22px 25px;
+            margin-bottom: 22px;
+            border: 1px solid #e4eaf1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .welcome-panel h2 {
+            color: #0f4c81;
+            font-size: 22px;
+            margin-bottom: 7px;
+        }
+
+        .welcome-panel p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* =========================
+           ACCOUNT DETAILS
+           ========================= */
+
+        .account-panel {
+            background: white;
+            border-radius: 10px;
+            padding: 22px 25px;
+            margin-bottom: 22px;
+            border: 1px solid #e4eaf1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            color: #163b5c;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .account-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .account-item {
+            background: #f7faff;
+            border: 1px solid #e2eaf3;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .account-label {
+            display: block;
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .account-value {
+            display: block;
+            font-size: 16px;
+            font-weight: 700;
+            color: #173f61;
+            word-break: break-word;
+        }
+
+        .balance-item {
+            background: #eef7f1;
+            border-color: #cce5d4;
+        }
+
+        .balance-value {
+            color: #137333;
+            font-size: 20px;
+        }
+
+        /* =========================
+           SUMMARY CARDS
+           ========================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #e4eaf1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: #0f4c81;
+        }
+
+        .summary-label {
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .summary-value {
+            color: #173f61;
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .summary-amount {
+            font-size: 21px;
+        }
+
+        .success-card::before {
+            background: #18864b;
+        }
+
+        .success-card .summary-value {
+            color: #18864b;
+        }
+
+        .pending-card::before {
+            background: #d97706;
+        }
+
+        .pending-card .summary-value {
+            color: #d97706;
+        }
+
+        .failed-card::before {
+            background: #c62828;
+        }
+
+        .failed-card .summary-value {
+            color: #c62828;
+        }
+
+        /* =========================
+           TRANSACTION SECTION
+           ========================= */
+
+        .transaction-panel {
+            background: white;
+            border-radius: 10px;
+            padding: 22px 25px;
+            border: 1px solid #e4eaf1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .transaction-note {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* =========================
+           GRIDVIEW
+           ========================= */
+
+        .transaction-grid {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .transaction-grid th {
+            background: #0f4c81;
+            color: white;
+            padding: 13px 12px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #0f4c81;
+        }
+
+        .transaction-grid td {
+            padding: 12px;
+            border-bottom: 1px solid #e5eaf0;
+            color: #374151;
+        }
+
+        .transaction-grid tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .transaction-grid tr:hover {
+            background: #eef5fb;
+        }
+
+        /* =========================
+           FOOTER
+           ========================= */
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        /* =========================
+           RESPONSIVE
+           ========================= */
+
+        @media (max-width: 1100px) {
+
+            .account-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .secure-text {
+                text-align: left;
+            }
+
+            .navigation {
+                padding: 10px 15px;
+            }
+
+            .navigation .logout {
+                margin-left: 0;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .account-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .transaction-panel {
+                overflow-x: auto;
+            }
+
+            .transaction-grid {
+                min-width: 650px;
+            }
+
         }
 
     </style>
@@ -96,104 +408,345 @@
 
 <form id="form1" runat="server">
 
-<div class="header">
-    MANMAD BANK - DASHBOARD
-</div>
+<div class="page-container">
 
-<div class="welcome">
+    <!-- =========================
+         HEADER
+         ========================= -->
 
-<h2>
-Welcome,
-<asp:Label ID="lblCustomerName" runat="server"></asp:Label>
-</h2>
+    <header class="header">
 
-<br />
+        <div>
+            <div class="bank-title">
+                MANMAD BANK
+            </div>
 
-<b>Customer ID :</b>
-<asp:Label ID="lblCustomerID" runat="server"></asp:Label>
+            <div class="bank-subtitle">
+                IMPS Banking Portal
+            </div>
+        </div>
 
-<br /><br />
+        <div class="secure-text">
+            Secure Banking Session
+            <br />
+            IMPS Transaction Services
+        </div>
 
-<b>Account Number :</b>
-<asp:Label ID="lblAccountNumber" runat="server"></asp:Label>
+    </header>
 
-<br /><br />
 
-<b>Account Type :</b>
-<asp:Label ID="lblAccountType" runat="server"></asp:Label>
+    <!-- =========================
+         NAVIGATION
+         ========================= -->
 
-</div>
+    <nav class="navigation">
 
-<div class="cards">
+        <a href="Dashboard.aspx"
+           class="active">
+            Dashboard
+        </a>
 
-<div class="card">
+        <a href="IMPSTransaction.aspx">
+            IMPS Transfer
+        </a>
 
-<h3>Available Balance</h3>
+        <a href="Beneficiary.aspx">
+            Beneficiary
+        </a>
 
-₹
+        <a href="BalanceEnquiry.aspx">
+            Balance Enquiry
+        </a>
 
-<asp:Label ID="lblBalance" runat="server"></asp:Label>
+        <a href="MiniStatement.aspx">
+            Mini Statement
+        </a>
 
-</div>
+        <a href="TransactionStatus.aspx">
+            Transaction Status
+        </a>
 
-<div class="card">
+        <a href="Reports.aspx">
+            Reports
+        </a>
 
-<h3>Today's Transactions</h3>
+        <a href="Login.aspx"
+           class="logout">
+            Logout
+        </a>
 
-<asp:Label ID="lblTodayTxn" runat="server"></asp:Label>
+    </nav>
 
-</div>
 
-<div class="card">
+    <!-- =========================
+         MAIN CONTENT
+         ========================= -->
 
-<h3>Today's Transfer</h3>
+    <main class="content">
 
-₹
 
-<asp:Label ID="lblTodayAmount" runat="server"></asp:Label>
+        <!-- WELCOME -->
 
-</div>
+        <section class="welcome-panel">
 
-</div>
+            <h2>
+                Welcome to Manmad Bank
+            </h2>
 
-<div class="menu">
+            <p>
+                Manage your account and monitor your IMPS transactions securely.
+            </p>
 
-<a href="IMPSTransaction.aspx">IMPS Transfer</a>
+        </section>
 
-<a href="Beneficiary.aspx">Beneficiary</a>
 
-<a href="BalanceEnquiry.aspx">Balance Enquiry</a>
+        <!-- ACCOUNT INFORMATION -->
 
-<a href="MiniStatement.aspx">Mini Statement</a>
+        <section class="account-panel">
 
-<a href="TransactionStatus.aspx">Transaction Status</a>
+            <div class="section-title">
+                Account Information
+            </div>
 
-<a href="Reports.aspx">Reports</a>
+            <div class="account-grid">
 
-<a href="ApiLogs.aspx" class="btn btn-info btn-lg">
-    API Logs
-</a>
+                <div class="account-item">
 
-<a href="Logout.aspx">Logout</a>
+                    <span class="account-label">
+                        Customer ID
+                    </span>
 
-</div>
+                    <asp:Label
+                        ID="lblCustomerID"
+                        runat="server"
+                        CssClass="account-value">
+                    </asp:Label>
 
-<div class="grid">
+                </div>
 
-<h2>Recent Transactions</h2>
 
-<asp:GridView
-ID="gvTransactions"
-runat="server"
-Width="100%"
-AutoGenerateColumns="true"
-BorderWidth="1"
-GridLines="Both">
-</asp:GridView>
+                <div class="account-item">
+
+                    <span class="account-label">
+                        Customer Name
+                    </span>
+
+                    <asp:Label
+                        ID="lblCustomerName"
+                        runat="server"
+                        CssClass="account-value">
+                    </asp:Label>
+
+                </div>
+
+
+                <div class="account-item">
+
+                    <span class="account-label">
+                        Account Number
+                    </span>
+
+                    <asp:Label
+                        ID="lblAccountNumber"
+                        runat="server"
+                        CssClass="account-value">
+                    </asp:Label>
+
+                </div>
+
+
+                <div class="account-item">
+
+                    <span class="account-label">
+                        Account Type
+                    </span>
+
+                    <asp:Label
+                        ID="lblAccountType"
+                        runat="server"
+                        CssClass="account-value">
+                    </asp:Label>
+
+                </div>
+
+
+                <div class="account-item balance-item">
+
+                    <span class="account-label">
+                        Available Balance
+                    </span>
+
+                    <span class="account-value balance-value">
+
+                        ₹
+
+                        <asp:Label
+                            ID="lblBalance"
+                            runat="server">
+                        </asp:Label>
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             TRANSACTION SUMMARY
+             ========================= -->
+
+        <section class="summary-grid">
+
+
+            <!-- TODAY TRANSACTIONS -->
+
+            <div class="summary-card">
+
+                <div class="summary-label">
+                    Today's IMPS Transactions
+                </div>
+
+                <asp:Label
+                    ID="lblTodayTxn"
+                    runat="server"
+                    CssClass="summary-value">
+                </asp:Label>
+
+            </div>
+
+
+            <!-- TODAY AMOUNT -->
+
+            <div class="summary-card">
+
+                <div class="summary-label">
+                    Today's Transfer Amount
+                </div>
+
+                <div class="summary-value summary-amount">
+
+                    ₹
+
+                    <asp:Label
+                        ID="lblTodayAmount"
+                        runat="server">
+                    </asp:Label>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUCCESS -->
+
+            <div class="summary-card success-card">
+
+                <div class="summary-label">
+                    Successful
+                </div>
+
+                <asp:Label
+                    ID="lblSuccessTxn"
+                    runat="server"
+                    CssClass="summary-value">
+                </asp:Label>
+
+            </div>
+
+
+            <!-- PENDING -->
+
+            <div class="summary-card pending-card">
+
+                <div class="summary-label">
+                    Pending
+                </div>
+
+                <asp:Label
+                    ID="lblPendingTxn"
+                    runat="server"
+                    CssClass="summary-value">
+                </asp:Label>
+
+            </div>
+
+
+            <!-- FAILED -->
+
+            <div class="summary-card failed-card">
+
+                <div class="summary-label">
+                    Failed
+                </div>
+
+                <asp:Label
+                    ID="lblFailedTxn"
+                    runat="server"
+                    CssClass="summary-value">
+                </asp:Label>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =========================
+             RECENT TRANSACTIONS
+             ========================= -->
+
+        <section class="transaction-panel">
+
+            <div class="transaction-header">
+
+                <div class="section-title">
+                    Recent IMPS Transactions
+                </div>
+
+                <div class="transaction-note">
+                    Latest 10 transactions
+                </div>
+
+            </div>
+
+
+            <asp:GridView
+                ID="gvTransactions"
+                runat="server"
+                AutoGenerateColumns="true"
+                CssClass="transaction-grid"
+                GridLines="None"
+                Width="100%"
+                EmptyDataText="No IMPS transactions found.">
+
+            </asp:GridView>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+         ========================= -->
+
+    <footer class="footer">
+
+        © 2026 Manmad Bank |
+        Secure IMPS Banking Portal
+
+    </footer>
+
 
 </div>
 
 </form>
 
 </body>
+
 </html>

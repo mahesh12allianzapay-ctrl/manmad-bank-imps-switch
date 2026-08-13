@@ -1,4 +1,7 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="BalanceEnquiry.aspx.cs" Inherits="WebApplication2.BalanceEnquiry" %>
+﻿```aspx
+<%@ Page Language="C#" AutoEventWireup="true"
+    CodeBehind="BalanceEnquiry.aspx.cs"
+    Inherits="WebApplication2.BalanceEnquiry" %>
 
 <!DOCTYPE html>
 
@@ -7,148 +10,265 @@
     <title>Balance Enquiry</title>
 
     <style>
-
-        body {
+        * {
             margin: 0;
             padding: 0;
-            background: #f4f6f9;
-            font-family: "Segoe UI";
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: #eef2f7;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #17365d;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .header span {
+            font-size: 14px;
+            opacity: 0.9;
         }
 
         .container {
-            width: 850px;
+            width: 90%;
+            max-width: 900px;
             margin: 40px auto;
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px #cccccc;
         }
 
-        h2 {
-            text-align: center;
-            color: #003366;
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-title {
+            font-size: 22px;
+            color: #17365d;
             margin-bottom: 25px;
+            font-weight: 600;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 15px;
         }
 
-        table {
-            width: 100%;
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        td {
-            padding: 10px;
+        .detail-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
         }
 
-        .title {
-            width: 220px;
-            font-weight: bold;
-            color: #003366;
+        .label {
+            display: block;
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 6px;
         }
 
         .value {
-            color: #222222;
+            display: block;
+            color: #172033;
+            font-size: 17px;
+            font-weight: 600;
         }
 
-        .balance {
-            font-size: 22px;
-            color: green;
-            font-weight: bold;
+        .balance-box {
+            background: #17365d;
+            color: white;
+            border-radius: 10px;
+            padding: 22px;
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        .btn {
-            background: #003366;
+        .balance-item .label {
+            color: #dbeafe;
+        }
+
+        .balance-item .value {
+            color: white;
+            font-size: 24px;
+        }
+
+        .last-updated {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .button-area {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .refresh-btn {
+            background: #17365d;
             color: white;
             border: none;
-            padding: 10px 25px;
+            padding: 12px 28px;
+            border-radius: 7px;
             font-size: 15px;
             cursor: pointer;
-            border-radius: 4px;
         }
 
-        .btn:hover {
-            background: #005599;
+        .refresh-btn:hover {
+            opacity: 0.9;
         }
 
+        @media (max-width: 650px) {
+            .details,
+            .balance-box {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
     </style>
-
 </head>
 
 <body>
 
 <form id="form1" runat="server">
 
-<div class="container">
+    <div class="header">
+        <h1>Bank Balance Enquiry</h1>
+        <span>Manmad Bank</span>
+    </div>
 
-<h2>Balance Enquiry</h2>
+    <div class="container">
 
-<table>
+        <div class="card">
 
-<tr>
-    <td class="title">Customer ID</td>
-    <td class="value">
-        <asp:Label ID="lblCustomerID" runat="server"></asp:Label>
-    </td>
-</tr>
+            <div class="card-title">
+                Account Details
+            </div>
 
-<tr>
-    <td class="title">Account Number</td>
-    <td class="value">
-        <asp:Label ID="lblAccountNumber" runat="server"></asp:Label>
-    </td>
-</tr>
+            <div class="details">
 
-<tr>
-    <td class="title">Customer Name</td>
-    <td class="value">
-        <asp:Label ID="lblCustomerName" runat="server"></asp:Label>
-    </td>
-</tr>
+                <div class="detail-box">
+                    <span class="label">Customer ID</span>
+                    <asp:Label
+                        ID="lblCustomerID"
+                        runat="server"
+                        CssClass="value">
+                    </asp:Label>
+                </div>
 
-<tr>
-    <td class="title">Account Type</td>
-    <td class="value">
-        <asp:Label ID="lblAccountType" runat="server"></asp:Label>
-    </td>
-</tr>
+                <div class="detail-box">
+                    <span class="label">Account Number</span>
+                    <asp:Label
+                        ID="lblAccountNumber"
+                        runat="server"
+                        CssClass="value">
+                    </asp:Label>
+                </div>
 
-<tr>
-    <td class="title">Available Balance</td>
-    <td class="balance">
-        ₹ <asp:Label ID="lblAvailableBalance" runat="server"></asp:Label>
-    </td>
-</tr>
+                <div class="detail-box">
+                    <span class="label">Customer Name</span>
+                    <asp:Label
+                        ID="lblCustomerName"
+                        runat="server"
+                        CssClass="value">
+                    </asp:Label>
+                </div>
 
-<tr>
-    <td class="title">Ledger Balance</td>
-    <td class="value">
-        ₹ <asp:Label ID="lblLedgerBalance" runat="server"></asp:Label>
-    </td>
-</tr>
+                <div class="detail-box">
+                    <span class="label">Account Type</span>
+                    <asp:Label
+                        ID="lblAccountType"
+                        runat="server"
+                        CssClass="value">
+                    </asp:Label>
+                </div>
 
-<tr>
-    <td class="title">Last Updated</td>
-    <td class="value">
-        <asp:Label ID="lblLastUpdated" runat="server"></asp:Label>
-    </td>
-</tr>
+            </div>
 
-<tr>
-    <td colspan="2" style="text-align:center">
+            <div class="balance-box">
 
-        <asp:Button
-            ID="btnRefresh"
-            runat="server"
-            Text="Refresh Balance"
-            CssClass="btn"
-            OnClick="btnRefresh_Click" />
+                <div class="balance-item">
+                    <span class="label">Available Balance</span>
 
-    </td>
-</tr>
+                    <asp:Label
+                        ID="lblAvailableBalance"
+                        runat="server"
+                        CssClass="value">
+                    </asp:Label>
+                </div>
 
-</table>
+                <div class="balance-item">
+                    <span class="label">Ledger Balance</span>
 
-</div>
+                    <asp:Label
+                        ID="lblLedgerBalance"
+                        runat="server"
+                        CssClass="value">
+                    </asp:Label>
+                </div>
+
+            </div>
+
+            <div class="last-updated">
+
+                Last Updated:
+                
+                <asp:Label
+                    ID="lblLastUpdated"
+                    runat="server">
+                </asp:Label>
+
+            </div>
+
+            <div class="button-area">
+
+                <asp:Button
+                    ID="btnRefresh"
+                    runat="server"
+                    Text="Refresh Balance"
+                    CssClass="refresh-btn"
+                    OnClick="btnRefresh_Click" />
+
+            </div>
+
+        </div>
+
+    </div>
 
 </form>
 
 </body>
 </html>
+```

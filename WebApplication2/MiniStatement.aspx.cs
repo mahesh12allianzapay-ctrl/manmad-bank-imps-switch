@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -7,14 +8,16 @@ namespace WebApplication2
 {
     public partial class MiniStatement1 : System.Web.UI.Page
     {
-        string cs = ConfigurationManager.ConnectionStrings["BankDB"].ConnectionString;
+        private readonly string cs =
+            ConfigurationManager.ConnectionStrings["BankDB"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 // Temporary Customer ID
-                // Later this will come from Session after Login
+                // Later replace with Session["CustomerID"]
+
                 lblCustomerID.Text = "10001";
 
                 LoadStatement();
@@ -30,24 +33,31 @@ namespace WebApplication2
                     con.Open();
 
                     // Get Account Number
-                    SqlCommand cmd = new SqlCommand(
-                        "SELECT AccountNumber FROM Accounts WHERE CustomerID=@CustomerID", con);
-
-                    cmd.Parameters.AddWithValue("@CustomerID", lblCustomerID.Text);
-
-                    object accountNo = cmd.ExecuteScalar();
-
-                    if (accountNo != null)
+                    using (SqlCommand cmd = new SqlCommand(
+                        @"SELECT AccountNumber
+                          FROM Accounts
+                          WHERE CustomerID = @CustomerID", con))
                     {
-                        lblAccountNumber.Text = accountNo.ToString();
-                    }
-                    else
-                    {
-                        lblAccountNumber.Text = "";
+                        cmd.Parameters.AddWithValue(
+                            "@CustomerID",
+                            lblCustomerID.Text.Trim()
+                        );
+
+                        object accountNo = cmd.ExecuteScalar();
+
+                        if (accountNo != null && accountNo != DBNull.Value)
+                        {
+                            lblAccountNumber.Text =
+                                accountNo.ToString();
+                        }
+                        else
+                        {
+                            lblAccountNumber.Text = "";
+                        }
                     }
 
-                    // Get Last 10 Transactions
-                    SqlDataAdapter da = new SqlDataAdapter(
+                    // Get last 10 transactions
+                    using (SqlDataAdapter da = new SqlDataAdapter(
                         @"SELECT TOP 10
                             TransactionDate,
                             TransactionRefNo,
@@ -58,24 +68,36 @@ namespace WebApplication2
                             Balance,
                             Status
                           FROM Transactions
-                          WHERE CustomerID=@CustomerID
-                          ORDER BY TransactionDate DESC", con);
+                          WHERE CustomerID = @CustomerID
+                          ORDER BY TransactionDate DESC", con))
+                    {
+                        da.SelectCommand.Parameters.AddWithValue(
+                            "@CustomerID",
+                            lblCustomerID.Text.Trim()
+                        );
 
-                    da.SelectCommand.Parameters.AddWithValue("@CustomerID", lblCustomerID.Text);
+                        DataTable dt = new DataTable();
 
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
+                        da.Fill(dt);
 
-                    gvStatement.DataSource = dt;
-                    gvStatement.DataBind();
+                        gvStatement.DataSource = dt;
+                        gvStatement.DataBind();
+                    }
                 }
                 catch (Exception ex)
                 {
+                    string message = ex.Message
+                        .Replace("\\", "\\\\")
+                        .Replace("'", "\\'")
+                        .Replace("\r", "")
+                        .Replace("\n", " ");
+
                     ClientScript.RegisterStartupScript(
                         this.GetType(),
-                        "msg",
-                        "alert('Error : " + ex.Message.Replace("'", "") + "');",
-                        true);
+                        "error",
+                        "alert('Database error: " + message + "');",
+                        true
+                    );
                 }
             }
         }
@@ -88,7 +110,8 @@ namespace WebApplication2
                 this.GetType(),
                 "msg",
                 "alert('Mini Statement refreshed successfully.');",
-                true);
+                true
+            );
         }
     }
 }

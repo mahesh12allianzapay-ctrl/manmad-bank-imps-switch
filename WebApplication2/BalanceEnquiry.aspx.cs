@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
 
@@ -6,15 +7,15 @@ namespace WebApplication2
 {
     public partial class BalanceEnquiry : System.Web.UI.Page
     {
-        string cs = ConfigurationManager.ConnectionStrings["BankDB"].ConnectionString;
+        private readonly string cs =
+            ConfigurationManager.ConnectionStrings["BankDB"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 // Temporary Customer ID
-                // Later replace with:
-                // lblCustomerID.Text = Session["CustomerID"].ToString();
+                // Later replace this with Session["CustomerID"]
 
                 lblCustomerID.Text = "10001";
 
@@ -26,52 +27,107 @@ namespace WebApplication2
         {
             using (SqlConnection con = new SqlConnection(cs))
             {
-                SqlCommand cmd = new SqlCommand(
-                    @"SELECT CustomerID,
-                             AccountNumber,
-                             CustomerName,
-                             AccountType,
-                             AvailableBalance,
-                             LedgerBalance,
-                             LastUpdated
-                      FROM Accounts
-                      WHERE CustomerID=@CustomerID", con);
+                string query = @"
+                    SELECT
+                        CustomerID,
+                        AccountNumber,
+                        CustomerName,
+                        AccountType,
+                        AvailableBalance,
+                        LedgerBalance
+                    FROM Accounts
+                    WHERE CustomerID = @CustomerID";
 
-                cmd.Parameters.AddWithValue("@CustomerID", lblCustomerID.Text);
-
-                con.Open();
-
-                SqlDataReader dr = cmd.ExecuteReader();
-
-                if (dr.Read())
+                using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    lblCustomerID.Text = dr["CustomerID"].ToString();
-                    lblAccountNumber.Text = dr["AccountNumber"].ToString();
-                    lblCustomerName.Text = dr["CustomerName"].ToString();
-                    lblAccountType.Text = dr["AccountType"].ToString();
+                    cmd.Parameters.AddWithValue(
+                        "@CustomerID",
+                        lblCustomerID.Text.Trim()
+                    );
 
-                    lblAvailableBalance.Text =
-                        Convert.ToDecimal(dr["AvailableBalance"]).ToString("N2");
+                    try
+                    {
+                        con.Open();
 
-                    lblLedgerBalance.Text =
-                        Convert.ToDecimal(dr["LedgerBalance"]).ToString("N2");
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            if (dr.Read())
+                            {
+                                lblCustomerID.Text =
+                                    dr["CustomerID"].ToString();
 
-                    lblLastUpdated.Text =
-                        Convert.ToDateTime(dr["LastUpdated"])
-                        .ToString("dd-MMM-yyyy hh:mm:ss tt");
+                                lblAccountNumber.Text =
+                                    dr["AccountNumber"].ToString();
+
+                                lblCustomerName.Text =
+                                    dr["CustomerName"].ToString();
+
+                                lblAccountType.Text =
+                                    dr["AccountType"].ToString();
+
+                                // Available Balance
+                                if (dr["AvailableBalance"] != DBNull.Value)
+                                {
+                                    lblAvailableBalance.Text =
+                                        Convert.ToDecimal(
+                                            dr["AvailableBalance"]
+                                        ).ToString("N2");
+                                }
+                                else
+                                {
+                                    lblAvailableBalance.Text = "0.00";
+                                }
+
+                                // Ledger Balance
+                                if (dr["LedgerBalance"] != DBNull.Value)
+                                {
+                                    lblLedgerBalance.Text =
+                                        Convert.ToDecimal(
+                                            dr["LedgerBalance"]
+                                        ).ToString("N2");
+                                }
+                                else
+                                {
+                                    lblLedgerBalance.Text = "0.00";
+                                }
+
+                                // LastUpdated column is not required
+                                lblLastUpdated.Text =
+                                    DateTime.Now.ToString(
+                                        "dd-MMM-yyyy hh:mm:ss tt"
+                                    );
+                            }
+                            else
+                            {
+                                ClearControls();
+
+                                ClientScript.RegisterStartupScript(
+                                    this.GetType(),
+                                    "msg",
+                                    "alert('No account found for Customer ID 10001.');",
+                                    true
+                                );
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ClearControls();
+
+                        string message = ex.Message
+                            .Replace("\\", "\\\\")
+                            .Replace("'", "\\'")
+                            .Replace("\r", "")
+                            .Replace("\n", " ");
+
+                        ClientScript.RegisterStartupScript(
+                            this.GetType(),
+                            "error",
+                            "alert('Database error: " + message + "');",
+                            true
+                        );
+                    }
                 }
-                else
-                {
-                    ClearControls();
-
-                    ClientScript.RegisterStartupScript(
-                        this.GetType(),
-                        "msg",
-                        "alert('No account found.');",
-                        true);
-                }
-
-                dr.Close();
             }
         }
 
@@ -94,7 +150,9 @@ namespace WebApplication2
                 this.GetType(),
                 "msg",
                 "alert('Balance refreshed successfully.');",
-                true);
+                true
+            );
         }
     }
 }
+

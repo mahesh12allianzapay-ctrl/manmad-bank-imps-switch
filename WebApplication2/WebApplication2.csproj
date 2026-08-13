@@ -206,6 +206,7 @@
     <Compile Include="ApiLogs.aspx.designer.cs">
       <DependentUpon>ApiLogs.aspx</DependentUpon>
     </Compile>
+    <Content Include="App_Code\Authorization.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
@@ -319,7 +320,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
