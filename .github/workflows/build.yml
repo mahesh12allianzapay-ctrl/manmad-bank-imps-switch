@@ -24,3 +24,9 @@ jobs:
 
       - name: Build application
         run: msbuild WebApplication2.slnx /p:Configuration=Release
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Manmad-Bank-IMPS-Build
+          path: WebApplication2/bin/Release
