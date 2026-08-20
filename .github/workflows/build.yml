@@ -23,4 +23,4 @@ jobs:
         run: nuget restore
 
       - name: Build application
-        run: msbuild WebApplication2.sln /p:Configuration=Release
+        run: msbuild WebApplication2.slnx /p:Configuration=Release
