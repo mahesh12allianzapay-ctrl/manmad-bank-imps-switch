@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="WebApplication2.Login" %>
+﻿
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="About.aspx.cs" Inherits="WebApplication2.Login" %>
 
 <!DOCTYPE html>
 
@@ -6,379 +7,880 @@
 
 <head runat="server">
 
-    <title>Manmad Bank - Secure Internet Banking</title>
+    <title>Manmad Bank | Internet Banking</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <style>
 
+        /* =====================================================
+           STANDARD BANKING COLOUR SYSTEM
+           Background : #F3F6F9
+           Primary    : #1E3A5F
+           Accent     : #2F80ED
+           White      : #FFFFFF
+        ===================================================== */
+
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
         }
+
+
+        /* =====================================================
+           BODY
+        ===================================================== */
 
         body {
+
             min-height: 100vh;
-            background: linear-gradient(135deg, #071e35, #0f4c81, #09253f);
+
+            background: #F3F6F9;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
-            padding: 20px;
+
+            padding: 25px;
+
+            color: #1F2937;
         }
 
-        /* MAIN CONTAINER */
+
+        /* =====================================================
+           MAIN LOGIN CARD
+        ===================================================== */
 
         .login-wrapper {
+
             width: 100%;
+
             max-width: 1050px;
+
             min-height: 620px;
+
             display: flex;
-            background: #ffffff;
-            border-radius: 20px;
+
+            background: #FFFFFF;
+
+            border-radius: 16px;
+
             overflow: hidden;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+
+            border: 1px solid #E1E7ED;
+
+            box-shadow:
+                0 15px 45px rgba(30,58,95,0.12);
         }
 
-        /* LEFT BANK PANEL */
+
+        /* =====================================================
+           LEFT BANK PANEL
+        ===================================================== */
 
         .bank-panel {
-            width: 45%;
-            background: linear-gradient(150deg, #0b355c, #0f4c81);
-            color: white;
-            padding: 55px 45px;
+
+            width: 43%;
+
+            background: #1E3A5F;
+
+            color: #FFFFFF;
+
+            padding: 50px 45px;
+
             display: flex;
+
             flex-direction: column;
+
             justify-content: space-between;
+
+            position: relative;
+
+            overflow: hidden;
         }
+
+
+        /* subtle background design */
+
+        .bank-panel::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+
+            height: 300px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.035);
+
+            top: -120px;
+
+            right: -120px;
+        }
+
+
+        .bank-panel::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+
+            height: 220px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(255,255,255,0.05);
+
+            bottom: -100px;
+
+            left: -80px;
+        }
+
+
+        /* =====================================================
+           LOGO
+        ===================================================== */
 
         .bank-logo {
+
+            position: relative;
+
+            z-index: 2;
+
             display: flex;
+
             align-items: center;
-            gap: 15px;
+
+            gap: 14px;
         }
+
 
         .bank-icon {
-            width: 55px;
-            height: 55px;
+
+            width: 54px;
+
+            height: 54px;
+
             border-radius: 12px;
-            background: rgba(255,255,255,0.15);
+
+            background: #FFFFFF;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
-            font-size: 28px;
+
+            font-size: 25px;
+
+            box-shadow:
+                0 6px 15px rgba(0,0,0,0.12);
         }
+
 
         .bank-logo h1 {
-            font-size: 27px;
-            letter-spacing: 1px;
+
+            font-size: 25px;
+
+            font-weight: 700;
+
+            letter-spacing: -0.3px;
         }
+
 
         .bank-logo p {
+
             margin-top: 4px;
-            font-size: 13px;
-            opacity: 0.85;
+
+            color: #C9D7E5;
+
+            font-size: 11px;
+
+            letter-spacing: 0.7px;
         }
+
+
+        /* =====================================================
+           BANK CONTENT
+        ===================================================== */
 
         .bank-content {
-            margin-top: 30px;
+
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: 40px;
         }
 
-        .bank-content h2 {
-            font-size: 34px;
-            line-height: 1.2;
+
+        .bank-content .tag {
+
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            background: rgba(255,255,255,0.09);
+
+            border: 1px solid rgba(255,255,255,0.12);
+
+            border-radius: 20px;
+
+            color: #DCE8F3;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            letter-spacing: 0.6px;
+
+            text-transform: uppercase;
+
             margin-bottom: 18px;
         }
 
-        .bank-content p {
-            font-size: 15px;
-            line-height: 1.7;
-            opacity: 0.88;
+
+        .bank-content h2 {
+
+            font-size: 36px;
+
+            line-height: 1.15;
+
+            font-weight: 600;
+
+            letter-spacing: -0.8px;
+
+            margin-bottom: 18px;
         }
+
+
+        .bank-content p {
+
+            max-width: 380px;
+
+            color: #C8D5E2;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+        }
+
+
+        /* =====================================================
+           SECURITY ITEMS
+        ===================================================== */
 
         .security-list {
+
             margin-top: 30px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 13px;
         }
 
+
         .security-item {
+
             display: flex;
+
             align-items: center;
+
             gap: 12px;
-            margin-bottom: 16px;
+
+            color: #E4ECF3;
+
+            font-size: 12px;
+        }
+
+
+        .security-icon {
+
+            width: 34px;
+
+            height: 34px;
+
+            border-radius: 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: rgba(255,255,255,0.08);
+
+            border: 1px solid rgba(255,255,255,0.08);
+
             font-size: 14px;
         }
 
-        .security-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.14);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
 
         .bank-footer {
-            font-size: 12px;
-            opacity: 0.7;
+
+            position: relative;
+
+            z-index: 2;
+
+            color: #9FB2C5;
+
+            font-size: 10px;
         }
 
-        /* RIGHT LOGIN PANEL */
+
+        /* =====================================================
+           RIGHT LOGIN PANEL
+        ===================================================== */
 
         .login-panel {
-            width: 55%;
-            padding: 55px 65px;
+
+            width: 57%;
+
+            background: #FFFFFF;
+
+            padding: 55px 70px;
+
             display: flex;
+
             flex-direction: column;
+
             justify-content: center;
         }
 
+
+        /* =====================================================
+           LOGIN HEADER
+        ===================================================== */
+
         .login-header {
+
             margin-bottom: 30px;
         }
 
+
+        .login-label {
+
+            color: #2F80ED;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.8px;
+
+            margin-bottom: 9px;
+        }
+
+
         .login-header h2 {
-            color: #172b3a;
+
+            color: #1E293B;
+
             font-size: 30px;
+
+            font-weight: 700;
+
+            letter-spacing: -0.5px;
+
             margin-bottom: 8px;
         }
+
 
         .login-header p {
-            color: #777;
-            font-size: 14px;
-        }
 
-        /* FORM */
+            color: #64748B;
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            color: #263746;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .input-container {
-            position: relative;
-            width: 100%;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 18px;
-            color: #6d7d8a;
-            z-index: 2;
-        }
-
-        .textbox {
-            width: 100%;
-            height: 50px;
-            padding: 0 15px 0 45px;
-            border: 1px solid #d6dce1;
-            border-radius: 9px;
-            background: #fafcfe;
-            color: #263746;
-            font-size: 15px;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-
-        .textbox:focus {
-            background: #ffffff;
-            border-color: #0f4c81;
-            box-shadow: 0 0 0 3px rgba(15,76,129,0.10);
-        }
-
-        /* PASSWORD */
-
-        .password-input {
-            padding-right: 52px !important;
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            width: 38px;
-            height: 38px;
-            border-radius: 6px;
-            font-size: 18px;
-            color: #536573;
-        }
-
-        .password-toggle:hover {
-            background: #edf4fa;
-        }
-
-        /* REMEMBER */
-
-        .remember-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 22px;
-        }
-
-        .remember-checkbox {
-            color: #536573;
             font-size: 13px;
-        }
 
-        .remember-checkbox input {
-            margin-right: 6px;
-        }
-
-        /* LOGIN BUTTON */
-
-        .login-btn {
-            width: 100%;
-            height: 52px;
-            border: none;
-            border-radius: 9px;
-            background: linear-gradient(135deg, #0f4c81, #0b3a64);
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 7px 18px rgba(15,76,129,0.25);
-        }
-
-        .login-btn:hover {
-            background: linear-gradient(135deg, #0b416f, #072f50);
-            transform: translateY(-1px);
-        }
-
-        .login-btn:active {
-            transform: translateY(0);
-        }
-
-        /* VALIDATION */
-
-        .validator {
-            display: block;
-            margin-top: 6px;
-            font-size: 12px;
-        }
-
-        /* MESSAGE */
-
-        .message-box {
-            margin-top: 18px;
-            min-height: 25px;
-            text-align: center;
-        }
-
-        .message {
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .attempts {
-            display: block;
-            margin-top: 5px;
-            color: #d97706;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        /* LINKS */
-
-        .links {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 23px;
-            font-size: 13px;
-        }
-
-        .links a {
-            color: #0f4c81;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .links a:hover {
-            text-decoration: underline;
-        }
-
-        .separator {
-            color: #bbb;
-        }
-
-        /* SECURITY NOTICE */
-
-        .security-notice {
-            margin-top: 25px;
-            padding: 13px 15px;
-            border-radius: 9px;
-            background: #f0f7fd;
-            border: 1px solid #d8e9f7;
-            color: #496171;
-            font-size: 12px;
             line-height: 1.6;
         }
 
-        .security-notice strong {
-            color: #0f4c81;
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .form-group {
+
+            margin-bottom: 20px;
         }
 
-        /* RESPONSIVE */
+
+        .form-label {
+
+            display: block;
+
+            color: #334155;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+        }
+
+
+        .input-container {
+
+            position: relative;
+
+            width: 100%;
+        }
+
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            z-index: 2;
+
+            color: #94A3B8;
+
+            font-size: 16px;
+
+            pointer-events: none;
+        }
+
+
+        .textbox {
+
+            width: 100%;
+
+            height: 52px;
+
+            padding: 0 50px 0 45px;
+
+            background: #F8FAFC;
+
+            border: 1px solid #D9E2EC;
+
+            border-radius: 9px;
+
+            color: #1E293B;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: all 0.2s ease;
+        }
+
+
+        .textbox::placeholder {
+
+            color: #94A3B8;
+        }
+
+
+        .textbox:hover {
+
+            border-color: #B8C6D4;
+
+            background: #FFFFFF;
+        }
+
+
+        .textbox:focus {
+
+            border-color: #2F80ED;
+
+            background: #FFFFFF;
+
+            box-shadow:
+                0 0 0 3px rgba(47,128,237,0.10);
+        }
+
+
+        /* =====================================================
+           PASSWORD
+        ===================================================== */
+
+        .password-input {
+
+            padding-right: 52px !important;
+        }
+
+
+        .password-toggle {
+
+            position: absolute;
+
+            right: 7px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 38px;
+
+            height: 38px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: transparent;
+
+            color: #64748B;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+            transition: all 0.2s ease;
+        }
+
+
+        .password-toggle:hover {
+
+            background: #EEF4FA;
+
+            color: #1E3A5F;
+        }
+
+
+        /* =====================================================
+           VALIDATORS
+        ===================================================== */
+
+        .validator {
+
+            display: block;
+
+            margin-top: 6px;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           REMEMBER
+        ===================================================== */
+
+        .remember-row {
+
+            display: flex;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+
+        .remember-checkbox {
+
+            color: #64748B;
+
+            font-size: 12px;
+        }
+
+
+        .remember-checkbox input {
+
+            margin-right: 6px;
+
+            accent-color: #2F80ED;
+        }
+
+
+        /* =====================================================
+           LOGIN BUTTON
+        ===================================================== */
+
+        .login-btn {
+
+            width: 100%;
+
+            height: 52px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #1E3A5F;
+
+            color: #FFFFFF;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.2px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 6px 16px rgba(30,58,95,0.18);
+
+            transition: all 0.2s ease;
+        }
+
+
+        .login-btn:hover {
+
+            background: #162F4D;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 9px 20px rgba(30,58,95,0.22);
+        }
+
+
+        .login-btn:active {
+
+            transform: translateY(0);
+        }
+
+
+        /* =====================================================
+           MESSAGE
+        ===================================================== */
+
+        .message-box {
+
+            min-height: 24px;
+
+            margin-top: 15px;
+
+            text-align: center;
+        }
+
+
+        .message {
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        .attempts {
+
+            display: block;
+
+            margin-top: 4px;
+
+            color: #B7791F;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           LINKS
+        ===================================================== */
+
+        .links {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 11px;
+
+            margin-top: 19px;
+
+            font-size: 12px;
+        }
+
+
+        .links a {
+
+            color: #2F80ED;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .links a:hover {
+
+            color: #1E3A5F;
+
+            text-decoration: underline;
+        }
+
+
+        .separator {
+
+            color: #CBD5E1;
+        }
+
+
+        /* =====================================================
+           SECURITY NOTICE
+        ===================================================== */
+
+        .security-notice {
+
+            margin-top: 22px;
+
+            padding: 13px 15px;
+
+            border-radius: 9px;
+
+            background: #F8FAFC;
+
+            border: 1px solid #E2E8F0;
+
+            color: #64748B;
+
+            font-size: 10.5px;
+
+            line-height: 1.65;
+        }
+
+
+        .security-notice strong {
+
+            color: #334155;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           SECURE CONNECTION
+        ===================================================== */
+
+        .secure-connection {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            margin-top: 14px;
+
+            color: #94A3B8;
+
+            font-size: 10px;
+        }
+
+
+        .secure-dot {
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: #16A34A;
+
+            box-shadow:
+                0 0 0 3px rgba(22,163,74,0.10);
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
 
         @media (max-width: 850px) {
 
             .login-wrapper {
-                max-width: 500px;
+
+                max-width: 550px;
             }
 
+
             .bank-panel {
+
                 display: none;
             }
 
+
             .login-panel {
+
                 width: 100%;
-                padding: 45px 35px;
+
+                padding: 50px;
             }
         }
 
-        @media (max-width: 450px) {
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 500px) {
 
             body {
-                padding: 10px;
+
+                padding: 12px;
             }
 
+
             .login-wrapper {
+
+                min-height: auto;
+
                 border-radius: 14px;
             }
 
+
             .login-panel {
-                padding: 35px 25px;
+
+                padding: 35px 24px;
             }
 
+
             .login-header h2 {
+
                 font-size: 26px;
             }
 
+
             .links {
+
                 flex-direction: column;
-                align-items: center;
+
                 gap: 7px;
             }
 
+
             .separator {
+
                 display: none;
             }
         }
@@ -387,49 +889,99 @@
 
 </head>
 
+
 <body>
 
 <form id="form1" runat="server">
 
+
+    <!-- =====================================================
+         MAIN LOGIN CONTAINER
+    ===================================================== -->
+
     <div class="login-wrapper">
 
-        <!-- LEFT SIDE -->
+
+        <!-- =================================================
+             LEFT BANK INFORMATION
+        ================================================== -->
 
         <div class="bank-panel">
 
+
             <div>
+
+
+                <!-- BANK LOGO -->
 
                 <div class="bank-logo">
 
+
                     <div class="bank-icon">
+
                         🏦
+
                     </div>
 
+
                     <div>
-                        <h1>Manmad Bank</h1>
-                        <p>Secure Internet Banking</p>
+
+                        <h1>
+                            Manmad Bank
+                        </h1>
+
+                        <p>
+                            Secure Internet Banking
+                        </p>
+
                     </div>
+
 
                 </div>
 
+
+
+                <!-- BANK CONTENT -->
+
                 <div class="bank-content">
 
+
+                    <div class="tag">
+
+                        Trusted Banking
+
+                    </div>
+
+
                     <h2>
+
                         Banking made<br />
                         simple & secure.
+
                     </h2>
 
+
                     <p>
-                        Access your banking services securely and
-                        manage your transactions with confidence.
+
+                        Access your banking services securely,
+                        manage transactions and monitor your
+                        account from one convenient place.
+
                     </p>
 
+
+
+                    <!-- SECURITY FEATURES -->
+
                     <div class="security-list">
+
 
                         <div class="security-item">
 
                             <div class="security-icon">
+
                                 🔒
+
                             </div>
 
                             <span>
@@ -438,10 +990,13 @@
 
                         </div>
 
+
                         <div class="security-item">
 
                             <div class="security-icon">
+
                                 🛡
+
                             </div>
 
                             <span>
@@ -450,10 +1005,28 @@
 
                         </div>
 
+
                         <div class="security-item">
 
                             <div class="security-icon">
-                                🔐
+
+                                ⚡
+
+                            </div>
+
+                            <span>
+                                Fast transaction processing
+                            </span>
+
+                        </div>
+
+
+                        <div class="security-item">
+
+                            <div class="security-icon">
+
+                                ✓
+
                             </div>
 
                             <span>
@@ -462,11 +1035,16 @@
 
                         </div>
 
+
                     </div>
 
                 </div>
 
             </div>
+
+
+
+            <!-- FOOTER -->
 
             <div class="bank-footer">
 
@@ -474,37 +1052,69 @@
 
             </div>
 
+
         </div>
 
 
-        <!-- RIGHT SIDE -->
+
+        <!-- =================================================
+             RIGHT LOGIN FORM
+        ================================================== -->
 
         <div class="login-panel">
 
+
+            <!-- LOGIN HEADER -->
+
             <div class="login-header">
 
-                <h2>Welcome Back</h2>
+
+                <div class="login-label">
+
+                    Secure Internet Banking
+
+                </div>
+
+
+                <h2>
+
+                    Welcome Back
+
+                </h2>
+
 
                 <p>
+
                     Sign in to access your secure banking account.
+
                 </p>
 
+
             </div>
+
 
 
             <!-- CUSTOMER ID -->
 
             <div class="form-group">
 
+
                 <label class="form-label">
+
                     Customer ID
+
                 </label>
+
 
                 <div class="input-container">
 
+
                     <span class="input-icon">
+
                         👤
+
                     </span>
+
 
                     <asp:TextBox
                         ID="txtUser"
@@ -514,7 +1124,9 @@
                         placeholder="Enter Customer ID">
                     </asp:TextBox>
 
+
                 </div>
+
 
                 <asp:RequiredFieldValidator
                     ID="rfvUser"
@@ -526,22 +1138,32 @@
                     CssClass="validator">
                 </asp:RequiredFieldValidator>
 
+
             </div>
+
 
 
             <!-- PASSWORD -->
 
             <div class="form-group">
 
+
                 <label class="form-label">
+
                     Password
+
                 </label>
+
 
                 <div class="input-container">
 
+
                     <span class="input-icon">
+
                         🔒
+
                     </span>
+
 
                     <asp:TextBox
                         ID="txtPassword"
@@ -551,6 +1173,7 @@
                         MaxLength="30"
                         placeholder="Enter Password">
                     </asp:TextBox>
+
 
                     <button
                         type="button"
@@ -562,7 +1185,9 @@
 
                     </button>
 
+
                 </div>
+
 
                 <asp:RequiredFieldValidator
                     ID="rfvPassword"
@@ -574,12 +1199,15 @@
                     CssClass="validator">
                 </asp:RequiredFieldValidator>
 
+
             </div>
 
 
-            <!-- REMEMBER -->
+
+            <!-- REMEMBER CUSTOMER ID -->
 
             <div class="remember-row">
+
 
                 <asp:CheckBox
                     ID="chkRemember"
@@ -587,12 +1215,15 @@
                     Text=" Remember Customer ID"
                     CssClass="remember-checkbox" />
 
+
             </div>
+
 
 
             <!-- LOGIN BUTTON -->
 
             <div>
+
 
                 <asp:Button
                     ID="btnLogin"
@@ -601,12 +1232,15 @@
                     CssClass="login-btn"
                     OnClick="btnLogin_Click" />
 
+
             </div>
+
 
 
             <!-- LOGIN MESSAGE -->
 
             <div class="message-box">
+
 
                 <asp:Label
                     ID="lblMessage"
@@ -616,6 +1250,7 @@
                     Font-Bold="true">
                 </asp:Label>
 
+
                 <asp:Label
                     ID="lblAttempts"
                     runat="server"
@@ -623,95 +1258,147 @@
                     Font-Bold="true">
                 </asp:Label>
 
+
             </div>
+
 
 
             <!-- LINKS -->
 
             <div class="links">
 
+
                 <asp:HyperLink
                     ID="lnkForgot"
                     runat="server"
                     NavigateUrl="ForgotPassword.aspx">
+
                     Forgot Password?
+
                 </asp:HyperLink>
 
-                <span class="separator">|</span>
+
+                <span class="separator">
+
+                    |
+
+                </span>
+
 
                 <asp:HyperLink
                     ID="lnkRegister"
                     runat="server"
                     NavigateUrl="Register.aspx">
+
                     New User Registration
+
                 </asp:HyperLink>
 
+
             </div>
+
 
 
             <!-- SECURITY NOTICE -->
 
             <div class="security-notice">
 
-                🔒 <strong>Security Notice</strong>
+
+                🔒
+
+                <strong>
+
+                    Security Notice
+
+                </strong>
+
 
                 <br />
+
 
                 Never share your Customer ID, Password or OTP
                 with anyone.
 
+
                 <br />
+
 
                 Always log out after completing your banking session.
 
+
             </div>
 
+
+
+            <!-- SECURE CONNECTION -->
+
+            <div class="secure-connection">
+
+
+                <span class="secure-dot"></span>
+
+
+                Secure banking connection
+
+
+            </div>
+
+
         </div>
+
 
     </div>
 
 </form>
 
 
-<!-- SHOW / HIDE PASSWORD -->
+
+<!-- =====================================================
+     SHOW / HIDE PASSWORD
+====================================================== -->
 
 <script type="text/javascript">
 
-    function togglePassword() {
+	function togglePassword() {
 
-        var passwordBox =
-            document.getElementById('<%= txtPassword.ClientID %>');
+		var passwordBox =
+			document.getElementById('<%= txtPassword.ClientID %>');
 
-        var toggleButton =
-            document.querySelector('.password-toggle');
+		var toggleButton =
+			document.querySelector('.password-toggle');
 
-        if (passwordBox.type === "password") {
 
-            passwordBox.type = "text";
+		if (passwordBox.type === "password") {
 
-            toggleButton.innerHTML = "🙈";
+			passwordBox.type = "text";
 
-            toggleButton.setAttribute(
-                "aria-label",
-                "Hide password"
-            );
+			toggleButton.innerHTML = "🙈";
 
-        }
-        else {
+			toggleButton.setAttribute(
+				"aria-label",
+				"Hide password"
+			);
 
-            passwordBox.type = "password";
+		}
+		else {
 
-            toggleButton.innerHTML = "👁";
+			passwordBox.type = "password";
 
-            toggleButton.setAttribute(
-                "aria-label",
-                "Show password"
-            );
-        }
-    }
+			toggleButton.innerHTML = "👁";
+
+			toggleButton.setAttribute(
+				"aria-label",
+				"Show password"
+			);
+
+		}
+
+	}
 
 </script>
+
 
 </body>
 
 </html>
+
